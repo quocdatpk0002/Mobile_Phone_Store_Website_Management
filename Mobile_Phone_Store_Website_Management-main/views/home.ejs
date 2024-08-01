@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ bán điện thoại</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav ul {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+        list-style-type: none;
+    }
+
+    nav ul li {
+        margin-right: 20px;
+        padding: 0;
+    }
+
+    nav ul li:last-child {
+        margin-right: 0;
+        /* Không có margin bên phải cho phần tử cuối cùng */
+    }
+
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+    }
+
+    /* Đảm bảo logo và nav menu không quá to dẫn đến bị nhảy xuống hàng */
+    .logo img {
+        max-width: 60px;
+        margin-right: 10px;
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+
+    /* Phần này đảm bảo rằng khi màn hình thu nhỏ, các mục menu không bị nhảy xuống */
+    @media screen and (max-width: 768px) {
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1rem;
+        }
+
+        .logo img {
+            max-width: 80px;
+        }
+    }
+
+    .hero {
+        background-image: url('hero-bg.jpg');
+        background-size: cover;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .hero1 {
+        background-size: cover;
+        text-align: center;
+    }
+
+    .hero1 h3 {
+        font-size: 2em;
+    }
+
+    .hero2 {
+        background-size: cover;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    .hero2 h3 {
+        font-size: 2em;
+    }
+
+    .hero1, .products,
+    .hero1 a, .products a, 
+    .hero1 a:visited, .products a:visited, 
+    .hero1 a:hover, .products a:hover, 
+    .hero1 a:active, .products a:active { 
+        color: black !important; 
+        text-decoration: none !important; 
+    }
+
+    .phones-list.flex-container, 
+    .phones-list.flex-container a {
+        color: black !important;
+        text-decoration: none !important; 
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .product {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 5px;
+        text-align: center;
+        flex: 1 1 300px;
+    }
+
+    .product img {
+        max-width: 70%;
+        height: auto;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; 
+        align-items: flex-start; 
+        padding: 0;
+        margin: 0 auto; 
+        max-width: 1200px; 
+    }
+
+    .flex-container > div {
+        width: calc(33.333% - 20px); 
+        margin-bottom: 20px; 
+    }
+
+    .phones-list > div {
+        text-align: center; 
+    }
+    .phones-list div img {
+        display: block; 
+        margin: 0 auto; 
+        width: 200px; 
+        height: 200px; 
+        object-fit: cover;
+    }
+    .footer-social {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Thêm khoảng cách giữa các hình ảnh */
+        margin-right: 10px;
+    }
+
+    .footer-social img {
+        width: 50px; 
+        height: auto; 
+        object-fit: cover; 
+    }
+
+    footer {
+        background-color: #333;
+        color: #fff;
+        padding: 20px 0;
+    }
+    
+    footer p {
+        text-align: center;
+    }
+
+    .footer-container {
+        display: flex;
+    }
+
+    .footer-links, .footer-social {
+        display: flex;
+    }
+
+    .footer-social {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .footer-logo img {
+        max-width: 100px;
+    }
+
+    .footer-links ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-links ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .footer-links ul li a {
+        color: #ffffffef;
+        text-decoration: none;
+    }
+
+    .footer-social img {
+        max-width: 30px;
+        margin-left: 10px;
+    }
+    .chat-widget {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 300px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 1000;
+        display: none; 
+    }
+    .round-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background-color: #6A5ACD;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .round-button img {
+        width: 100%; 
+        height: 100%;
+        object-fit: cover; 
+    }
+    .chat-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        font-size: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .chat-body {
+        padding: 10px;
+    }
+    .footer-social {
+        margin-top: 10px;
+    }
+    .social-item {
+        margin-bottom: 10px;
+    }
+    .social-item p {
+        margin: 0;
+    }
+    .social-item a img {
+        width: 24px;
+        height: 24px;
+    }
+    #close-chat {
+        background-color: #ccc;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 5px;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+
+<body>
+    <header>
+        <div class="logo">
+            <img id="logo"
+                src="https://png.pngtree.com/png-clipart/20200727/original/pngtree-smartphone-shop-sale-logo-design-png-image_5069958.jpg"
+                alt="Logo">
+            <h1>PHONE STORE</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home">Trang chủ</a></li>
+                <li class="dropdown">
+                    <span>Sản phẩm</span>
+                    <div class="dropdown-content">
+                        <a href="/api/phones/brand/iphone">Iphone</a>
+                        <a href="/api/phones/brand/samsung">SamSung</a>
+                    </div>
+                </li>                
+                <li><a href="login">Đăng nhập</a></li>
+                <li><a href="register">Đăng ký</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Chào mừng bạn đến với PHONE STORE</h1>
+        <p>Tìm kiếm điện thoại phù hợp cho bạn</p>
+    </div>
+
+    <div class="hero1">
+        <h3>Các sản phẩm hot trong tháng</h3>
+    </div>
+    
+    <div class="products">
+        <div class="product">
+            <img src="../uploads/Test/4.jpg" alt="Điện thoại 1">
+            <h2>Iphone 15 Pro Max Blue</h2>
+            <p>Giá: 45.000.000 VND</p>
+        </div>
+        <div class="product">
+            <img src="../uploads/Test/3.jpg" alt="Điện thoại 2">
+            <h2>Iphone 15 Pro Max Black</h2>
+            <p>Giá: 42.000.000 VND</p>
+        </div>
+        <div class="product">
+            <img src="../uploads/Test/1.jpg" alt="Điện thoại 3">
+            <h2>Iphone 15 Pro Max White</h2>
+            <p>Giá: 42.000.000 VND</p>
+        </div>
+    </div>
+
+    <div class="hero2">
+        <h3>Danh sách điện thoại</h3>
+    </div>
+
+    <div class="phones-list flex-container">
+        <% if(phones.length> 0) { %>
+            <% phones.forEach(function(phone) { %>
+                <div>
+                    <a href="/api/phones/<%= phone.maSoDienThoai %>">
+                        <img src="<%= phone.imageUrl %>" alt="<%= phone.tenDienThoai %>">
+                        <h2>
+                            <%= phone.tenDienThoai %>
+                        </h2>
+                        <p>Giá: <%= phone.gia.toLocaleString('vi-VN') %> VND</p>
+                </div>
+                <% }) %>
+                    <% } else { %>
+                        <p>Không có dữ liệu điện thoại để hiển thị.</p>
+                        <% } %>
+    </div>
+
+    <div class="round-button" onclick="toggleChatWidget()">
+        <a href="#"><img src="../uploads/icon/2021_Facebook_icon.svg.png" alt="Twitter"></a>
+    </div>
+    
+    <div class="chat-widget">
+        <div class="chat-header">
+            <span>Phone STORE</span>
+            <button id="close-chat" onclick="toggleChatWidget()">×</button>
+            </div>
+            <div class="chat-body">
+            <p>Mọi thắc mắc của bạn hãy liên hệ cho chúng tôi qua số điện thoại 0398306321!</p>
+            <div class="footer-social">
+                <div class="social-item">
+                    <p>Facebook</p>
+                    <a href="https://www.facebook.com">
+                        <img src="../uploads/icon/2021_Facebook_icon.svg.png" alt="Facebook">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleChatWidget() {
+            var chatWidget = document.querySelector('.chat-widget');
+            chatWidget.style.display = chatWidget.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <ul>
+                    <li><a href="care">Chăm sóc khách hàng</a></li>
+                    <li><a href="/security">Chính sách bảo mật</a></li>
+                    <li><a href="/repair">Chính sách bảo hành</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><img
+                        src="../uploads/icon/2021_Facebook_icon.svg.png"
+                        alt="Facebook"></a>
+                <a href="#"><img
+                        src="../uploads/icon/twitter-x-new-logo-icon-vector-48548028.jpg"
+                        alt="Twitter"></a>
+                <a href="#"><img
+                        src="../uploads/icon/Instagram-Icon.png"
+                        alt="Instagram"></a>
+            </div>
+        </div>
+        <p>&copy; 2024 Trang chủ bán điện thoại</p>
+    </footer>
+</body>
+
+</html>

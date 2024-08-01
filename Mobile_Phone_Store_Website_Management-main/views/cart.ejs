@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav ul {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+        list-style-type: none;
+    }
+
+    nav ul li {
+        margin-right: 20px;
+        padding: 0;
+    }
+
+    nav ul li:last-child {
+        margin-right: 0;
+        /* Không có margin bên phải cho phần tử cuối cùng */
+    }
+
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+        /* Chỉnh padding nếu cần để phù hợp */
+    }
+
+    /* Đảm bảo logo và nav menu không quá to dẫn đến bị nhảy xuống hàng */
+    .logo img {
+        max-width: 60px;
+        margin-right: 10px;
+    }
+
+    .logo h1 {
+        font-size: 1.2rem;
+    }
+
+    /* Phần này đảm bảo rằng khi màn hình thu nhỏ, các mục menu không bị nhảy xuống */
+    @media screen and (max-width: 768px) {
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1rem;
+        }
+
+        .logo img {
+            max-width: 80px;
+        }
+    }
+
+    .hero {
+        background-image: url('hero-bg.jpg');
+        background-size: cover;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .hero1 {
+        background-size: cover;
+        text-align: center;
+    }
+
+    .hero1 h3 {
+        font-size: 2em;
+    }
+
+    .hero2 {
+        background-size: cover;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    .hero2 h3 {
+        font-size: 2em;
+    }
+
+    .hero1,
+    .products,
+    .hero1 a,
+    .products a,
+    .hero1 a:visited,
+    .products a:visited,
+    .hero1 a:hover,
+    .products a:hover,
+    .hero1 a:active,
+    .products a:active {
+        color: black !important;
+        text-decoration: none !important;
+    }
+
+    .phones-list.flex-container,
+    .phones-list.flex-container a {
+        color: black !important;
+        text-decoration: none !important;
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .products {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .product {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 5px;
+        text-align: center;
+        flex: 1 1 300px;
+    }
+
+    .product img {
+        max-width: 70%;
+        height: auto;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .flex-container>div {
+        width: calc(33.333% - 20px);
+        margin-bottom: 20px;
+    }
+
+    .phones-list>div {
+        text-align: center;
+    }
+
+    .phones-list div img {
+        display: block;
+        margin: 0 auto;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .footer-social {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-right: 10px;
+    }
+
+    .footer-social img {
+        width: 50px;
+        height: auto;
+        object-fit: cover;
+    }
+
+    footer {
+        /* background-color: #333;
+        color: #fff;
+        padding: 30px 0; */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 30px 0;
+    }
+
+    footer p {
+        text-align: center;
+    }
+
+    .footer-container {
+        display: flex;
+    }
+
+    .footer-links,
+    .footer-social {
+        display: flex;
+    }
+
+    .footer-social {
+        display: flex;
+        margin-left: auto;
+    }
+
+    .footer-logo img {
+        max-width: 100px;
+    }
+
+    .footer-links ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-links ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .footer-links ul li a {
+        color: #ffffffef;
+        text-decoration: none;
+    }
+
+    .footer-social img {
+        max-width: 30px;
+        margin-left: 10px;
+    }
+
+    .cart {
+        margin: 20px;
+        padding: 30px;
+        background-color: #f4f4f4;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 260px;
+    }
+
+    .cart ul {
+        list-style-type: none;
+    }
+
+    .cart h1 {
+        margin-bottom: 10px;
+    }
+
+    .cart table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .cart th,
+    .cart td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    .cart th {
+        background-color: #f2f2f2;
+    }
+
+    .cart img {
+        width: auto;
+        height: 100px;
+    }
+
+    .cart {
+        margin: 20px 0;
+    }
+
+    .cart thead th {
+        position: sticky;
+        top: 0;
+    }
+
+    /* Phản hồi cho các thiết bị nhỏ hơn */
+    @media (max-width: 768px) {
+
+        .cart th,
+        .cart td {
+            padding: 4px;
+        }
+
+        .cart img {
+            height: 50px;
+        }
+    }
+    #paymentFormContainer {
+        display: none;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 1000;
+        width: 500px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;  
+        display: flex;        
+        align-items: center;  
+    }
+
+    .form-group label {
+        flex: 1;             
+        margin-right: 10px;   
+    }
+
+    .form-group input {
+        flex: 2;              
+        padding: 5px;         
+        border: 1px solid #ccc;  
+    }
+
+    .submit-btn {
+        padding: 10px 20px;   
+        border: none;
+        background-color: #007bff; 
+        color: white;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://png.pngtree.com/png-clipart/20200727/original/pngtree-smartphone-shop-sale-logo-design-png-image_5069958.jpg"
+                alt="Logo">
+            <h1>PHONE STORE</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="/logout">Quay lại</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Chào mừng bạn đến với PHONE STORE</h1>
+        <p>Tìm kiếm điện thoại phù hợp cho bạn</p>
+    </div>
+
+    <div class="cart">
+        <h2>Giỏ Hàng</h2>
+        <% if (cart.length> 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền (VND)</th>
+                        <th>Hành động</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cart.forEach(function(item, index) { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td><img src="<%= item.imageUrl %>" alt="<%= item.tenDienThoai %>"
+                                    style="width: 50px;; height:auto;"></td>
+                            <td>
+                                <%= item.tenDienThoai %>
+                            </td>
+                            <td>
+                                <%= item.gia.toLocaleString('vi-VN') %> VND
+                            </td>
+                            <td>
+                                <%= item.soLuong %>
+                            </td>
+                            <td>
+                                <%= (item.gia * item.soLuong).toLocaleString('vi-VN') %> VND
+                            </td>
+                            <td>
+                                <!-- Nút Xóa -->
+                                <form id="removeFromCartForm-<%= index %>"
+                                    action="/api/phones/removeFromCart/<%= item.maSoDienThoai %>" method="get">
+                                    <button type="button"
+                                        onclick="removeFromCart('<%= item.maSoDienThoai %>')">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <!-- Nút Thanh toán -->
+            <div style="text-align: right; margin-top: 20px;">
+                <button onclick="togglePaymentForm()">Thanh toán</button>
+                <div id="paymentFormContainer" style="display:none;">
+                    <form id="paymentForm" action="/api/phones/checkout" method="post">
+                        <div class="form-group">
+                            <label for="customerName">Tên khách hàng:</label>
+                            <input type="text" id="customerName" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Số điện thoại:</label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ:</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <input type="hidden" id="items" name="items">
+                        <input type="hidden" id="totalAmount" name="totalAmount">
+                        <button type="submit" class="submit-btn">Xác nhận</button>
+                        <button type="button" class="submit-btn" style="background-color: #dc3545;" onclick="togglePaymentForm()">Thoát</button>
+                    </form>
+                </div>                                           
+            </div>
+
+            <script>
+                function removeFromCart(phoneId) {
+                    var form = document.getElementById('removeFromCartForm-' + phoneId);
+                    form.submit();
+                }
+                function togglePaymentForm() {
+                    var formContainer = document.getElementById('paymentFormContainer');
+                    if (formContainer.style.display === 'none') {
+                        formContainer.style.display = 'block';
+                    } else {
+                        formContainer.style.display = 'none';
+                    }
+                }
+                document.getElementById('paymentForm').onsubmit = function (e) {
+                    e.preventDefault();
+
+                    var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                    var totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
+                    document.getElementById('items').value = JSON.stringify(cart);
+                    document.getElementById('totalAmount').value = totalAmount;
+
+                    // Sử dụng ID form để gửi
+                    this.submit(); // `this` trong context này sẽ trỏ đến form đang xử lý sự kiện onsubmit
+                };
+
+            </script>
+            <% } else { %>
+                <p>Giỏ hàng trống.</p>
+                <% } %>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="care">Chăm sóc khách hàng</a></li>
+                    <li><a href="/security">Chính sách bảo mật</a></li>
+                    <li><a href="/repair">Chính sách bảo hành</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <a href="#"><img src="../uploads/icon/2021_Facebook_icon.svg.png" alt="Facebook"></a>
+                <a href="#"><img src="../uploads/icon/twitter-x-new-logo-icon-vector-48548028.jpg" alt="Twitter"></a>
+                <a href="#"><img src="../uploads/icon/Instagram-Icon.png" alt="Instagram"></a>
+            </div>
+        </div>
+        <p>&copy; 2024 Trang chủ bán điện thoại</p>
+    </footer>
+
+    <script>
+        async function removeFromCart(phoneId) {
+            try {
+                const response = await fetch(`/api/phones/removeFromCart/${phoneId}`, {
+                    method: 'GET'
+                });
+                const data = await response.json();
+                // Hiển thị thông báo trên trang
+                alert(data.message);
+                // Tải lại trang để cập nhật giỏ hàng
+                location.reload();
+            } catch (error) {
+                console.error('Lỗi:', error);
+            }
+        }
+    </script>
+    <% if (paymentStatus) { %>
+        <script>
+            window.onload = function () {
+                alert('<%= paymentStatus.message %>');
+            }
+        </script>
+        <% } %>
+</body>
+
+</html>

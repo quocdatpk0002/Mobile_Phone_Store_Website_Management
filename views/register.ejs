@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px; 
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px; 
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: calc(100% - 16px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px; 
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: #007bff; 
+            outline: none;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 12px; 
+            background-color: #0056b3; 
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #00408b; 
+        }
+        .link {
+            text-align: center;
+            margin-top: 20px; 
+        }
+        .link a {
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .link a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Đăng ký</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" required placeholder="Nhập tên đăng nhập">
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required placeholder="Nhập mật khẩu">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Xác nhận mật khẩu:</label>
+                <input type="password" id="confirmPassword" required placeholder="Xác nhận mật khẩu">
+            </div>
+            <div class="form-group">
+                <button type="submit">Đăng ký</button>
+            </div>
+            <div class="link">
+                <a href="/login">Bạn đã có tài khoản? Đăng nhập tại đây</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Mật khẩu xác nhận không khớp!');
+                return;
+            }
+
+            // Logic để gửi dữ liệu đăng ký tới server
+            fetch('/api/users/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Thông báo đăng ký thành công hoặc hiển thị thông báo lỗi từ server
+                    alert(data.message);
+                }
+                // Chuyển hướng người dùng đến trang đăng nhập hoặc trang chủ sau khi đăng ký thành công
+                window.location.href = '/login';
+            })
+            .catch(error => {
+                // Xử lý lỗi không thể gửi yêu cầu đến server
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi đăng ký.');
+            });
+        });
+    </script>
+</body>
+</html>

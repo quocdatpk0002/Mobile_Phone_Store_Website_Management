@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            width: 350px;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            text-align: left;
+            margin-bottom: .5rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: calc(100% - 1rem);
+            padding: .5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .form-group button {
+            width: 100%;
+            padding: .6rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        
+        .link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Đăng nhập</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Đăng nhập</button>
+            </div>
+            <div class="link">
+                <a href="/register">Đăng ký tài khoản mới</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            // Logic để gửi dữ liệu đăng nhập tới server
+            try {
+                const response = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Đăng nhập thành công, có thể lưu token vào localStorage và chuyển hướng
+                    localStorage.setItem('token', data.token);
+                    if (data.role === 'admin') {
+                        window.location.href = '/index3'; 
+                    } else {
+                        window.location.href = '/logout'; 
+                    }
+                } else {
+                    // Thông báo lỗi đăng nhập
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi khi gửi yêu cầu đến server');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý điện thoại</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .sidebar {
+            background-color: rgb(218, 218, 218);
+            color: white;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .btn-main {
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #70AE98;
+            border: none;
+        }
+
+        .btn-main:hover {
+            background-color: #2E8364;
+            border-color: #ffffff;
+        }
+
+        .container-fluid {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            color: black;
+        }
+
+        #ketQuaThongBao p {
+            margin-top: 15px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .form {
+            background-color: rgb(218, 218, 218);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .col-md-2 h3 {
+            color: black;
+            font-size: 25px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-md-2 sidebar">
+                <h3>Quản lý điện thoại</h3>
+                <button class="btn btn-main" onclick="hienThiForm('formThem')">Thêm Điện Thoại</button>
+                <button class="btn btn-main" onclick="hienThiForm('formTimKiem')">Tìm Kiếm Điện Thoại</button>
+                <button class="btn btn-main" onclick="hienThiForm('formpayments')">Thông Tin Đơn Hàng</button>
+                <button class="btn btn-main logout-button" onclick="dangXuat()">Đăng xuất</button>
+            </div>
+
+            <div class="col-md-10 content">
+                <div id="formThem" class="form hidden">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="maSoDienThoaiThem" placeholder="Mã Số Điện Thoại">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="tenDienThoaiThem" placeholder="Tên Điện Thoại">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="hangDienThoaiThem" placeholder="Hãng Điện Thoại">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="thongtincobanThem" placeholder="Thông tin cơ bản">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="giaThem" placeholder="Giá">
+                    </div>
+                    <div class="form-group">
+                        <label for="hinhAnh">Hình ảnh:</label>
+                        <input type="file" class="form-control-file" id="hinhAnh" name="hinhAnh" accept="image/*">
+                    </div>
+                    <button class="btn btn-main" onclick="themDienThoai()">Thêm Điện Thoại</button>
+                </div>
+
+                <div id="formTimKiem" class="form hidden">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchMaSoDienThoai" placeholder="Mã Số Điện Thoại cần tìm">
+                    </div>
+                    <button class="btn btn-main" onclick="timKiemDienThoai()">Tìm Kiếm</button>
+                    <div id="ketQuaTimKiem" class="mt-4"></div>
+                </div>
+
+                <div id="formpayments" class="form hidden">
+                    <div class="form-group">
+                        <h2>Thông tin Đơn hàng</h2>
+                        <div id="paymentDetails"></div>
+                    </div>
+                </div>
+
+                <div id="formCapNhat" class="form hidden">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="updateMaSoDienThoai" placeholder="Mã Số Điện Thoại cần cập nhật" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="updateTenDienThoai" placeholder="Tên Điện Thoại mới">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="updateHangDienThoai" placeholder="Hãng Điện Thoại mới">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="updateThongtincoban" placeholder="Thông tin cơ bản">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" id="updateGia" placeholder="Giá mới">
+                    </div>
+                    <div class="form-group">
+                        <label for="updateHinhAnh">Hình ảnh mới:</label>
+                        <input type="file" class="form-control-file" id="updateHinhAnh" name="updateHinhAnh" accept="image/*">
+                    </div>
+                    <button class="btn btn-main" onclick="capNhatDienThoai()">Cập Nhật Điện Thoại</button>
+                </div>
+
+                <div id="ketQuaThongBao" class="text-center mt-3"></div>
+
+                <div id="ketQuaTimKiem" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function hienThiForm(formId) {
+            var forms = document.querySelectorAll('.form');
+            forms.forEach(function (form) {
+                form.classList.add('hidden');
+            });
+
+            var form = document.getElementById(formId);
+            if (form) {
+                form.classList.remove('hidden');
+            }
+        }
+
+        function hienThiThongBao(message, isSuccess) {
+            var ketQuaThongBaoDiv = document.getElementById('ketQuaThongBao');
+            if (ketQuaThongBaoDiv) {
+                ketQuaThongBaoDiv.innerHTML = `<p>${message}</p>`;
+                ketQuaThongBaoDiv.style.color = isSuccess ? 'green' : 'red';
+            } else {
+                console.error('Phần tử ketQuaThongBao không tồn tại trong tài liệu HTML.');
+            }
+        }
+
+        function resetThongBao() {
+            var ketQuaThongBaoDiv = document.getElementById('ketQuaThongBao');
+            if (ketQuaThongBaoDiv) {
+                ketQuaThongBaoDiv.innerHTML = '';
+            } else {
+                console.error('Phần tử ketQuaThongBao không tồn tại trong tài liệu HTML.');
+            }
+        }
+
+        function xoaKetQuaTimKiem() {
+            var ketQuaDiv = document.getElementById('ketQuaTimKiem');
+            if (ketQuaDiv) {
+                ketQuaDiv.innerHTML = '';
+            } else {
+                console.error('Phần tử ketQuaTimKiem không tồn tại trong tài liệu HTML.');
+            }
+        }
+
+        function themDienThoai() {
+            var formData = new FormData();
+            var hinhAnh = document.getElementById('hinhAnh').files[0];
+            formData.append('phoneImage', hinhAnh);
+
+            formData.append('maSoDienThoai', document.getElementById('maSoDienThoaiThem').value);
+            formData.append('tenDienThoai', document.getElementById('tenDienThoaiThem').value);
+            formData.append('hangDienThoai', document.getElementById('hangDienThoaiThem').value);
+            formData.append('thongtincoban', document.getElementById('thongtincobanThem').value);
+            formData.append('gia', document.getElementById('giaThem').value);
+
+            fetch('/api/phones', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Lỗi khi thêm điện thoại.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                hienThiThongBao('Thêm điện thoại thành công.', true);
+            })
+            .catch(error => {
+                hienThiThongBao('Lỗi khi thêm điện thoại: ' + error.message, false);
+            });
+        }
+
+        function capNhatDienThoai() {
+            var maSoDienThoai = document.getElementById('updateMaSoDienThoai').value;
+            var formData = new FormData();
+            var hinhAnh = document.getElementById('updateHinhAnh').files[0];
+            if (hinhAnh) {
+                formData.append('phoneImage', hinhAnh);
+            }
+
+            formData.append('tenDienThoai', document.getElementById('updateTenDienThoai').value);
+            formData.append('hangDienThoai', document.getElementById('updateHangDienThoai').value);
+            formData.append('thongtincoban', document.getElementById('updateThongtincoban').value);
+            formData.append('gia', document.getElementById('updateGia').value);
+
+            fetch(`/api/phones/${maSoDienThoai}`, {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Lỗi khi cập nhật điện thoại hoặc mã số điện thoại không tồn tại.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                hienThiThongBao('Cập nhật điện thoại thành công.', true);
+                timKiemDienThoai(); // Tải lại danh sách sau khi cập nhật
+            })
+            .catch((error) => {
+                hienThiThongBao('Lỗi khi cập nhật điện thoại: ' + error.message, false);
+            });
+        }
+
+        function xoaDienThoai(maSoDienThoai) {
+            fetch(`/api/phones/${maSoDienThoai}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Mã số điện thoại không tồn tại hoặc lỗi khi xóa.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                hienThiThongBao('Xóa điện thoại thành công.', true);
+                timKiemDienThoai(); // Tải lại danh sách sau khi xóa
+            })
+            .catch((error) => {
+                hienThiThongBao('Lỗi khi xóa điện thoại: ' + error.message, false);
+            });
+        }
+
+        function timKiemDienThoai() {
+            var maSoDienThoai = document.getElementById('searchMaSoDienThoai').value;
+            var ketQuaDiv = document.getElementById('ketQuaTimKiem');
+            ketQuaDiv.innerHTML = '';
+
+            fetch(`/api/phones/search/${maSoDienThoai}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Không tìm thấy điện thoại.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    var table = `<table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã Số</th>
+                                            <th>Tên Điện Thoại</th>
+                                            <th>Hãng</th>
+                                            <th>Thông Tin Cơ Bản</th>
+                                            <th>Giá</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+                    data.forEach(phone => {
+                        table += `<tr>
+                                    <td>${phone.maSoDienThoai}</td>
+                                    <td>${phone.tenDienThoai}</td>
+                                    <td>${phone.hangDienThoai}</td>
+                                    <td>${phone.thongtincoban}</td>
+                                    <td>${phone.gia}</td>
+                                    <td><button class="btn btn-info" onclick="hienThiFormCapNhat('${phone.maSoDienThoai}', '${phone.tenDienThoai}', '${phone.hangDienThoai}', '${phone.thongtincoban}', ${phone.gia})">Cập nhật</button></td>
+                                    <td><button class="btn btn-danger" onclick="xoaDienThoai('${phone.maSoDienThoai}')">Xóa</button></td>
+                                </tr>`;
+                    });
+                    table += `</tbody></table>`;
+                    ketQuaDiv.innerHTML = table;
+                } else {
+                    ketQuaDiv.innerHTML = '<p>Không tìm thấy điện thoại.</p>';
+                }
+            })
+            .catch((error) => {
+                ketQuaDiv.innerHTML = `<p>${error.message}</p>`;
+            });
+        }
+
+        function hienThiFormCapNhat(maSoDienThoai, tenDienThoai, hangDienThoai, thongtincoban, gia) {
+            hienThiForm('formCapNhat');
+            document.getElementById('updateMaSoDienThoai').value = maSoDienThoai;
+            document.getElementById('updateTenDienThoai').value = tenDienThoai;
+            document.getElementById('updateHangDienThoai').value = hangDienThoai;
+            document.getElementById('updateThongtincoban').value = thongtincoban;
+            document.getElementById('updateGia').value = gia;
+        }
+
+        function hienThiForm(formId) {
+            var forms = document.querySelectorAll('.form');
+            forms.forEach(function (form) {
+                form.classList.add('hidden');
+            });
+
+            resetThongBao();
+            xoaKetQuaTimKiem();
+
+            var form = document.getElementById(formId);
+            if (form) {
+                form.classList.remove('hidden');
+            }
+
+            // Nếu là form thông tin đơn hàng, thực hiện lấy và hiển thị thông tin đơn hàng
+            if (formId === 'formpayments') {
+                fetch('/api/payments')
+                    .then(response => response.json())
+                    .then(data => {
+                        var paymentDetails = document.getElementById('paymentDetails');
+                        paymentDetails.innerHTML = ''; 
+                        data.forEach(payment => {
+                            let htmlContent = `
+                        <div class="payment-info">
+                            <h3>Đơn Hàng: ${payment.customerName}</h3>
+                            <p>Điện thoại: ${payment.phoneNumber}</p>
+                            <p>Địa chỉ: ${payment.address}</p>
+                            <ul>
+                                ${payment.items.map(item => `<li>${item.tenDienThoai} - Số lượng: ${item.soLuong} - Giá: ${item.gia.toLocaleString()} VND</li>`).join('')}
+                            </ul>
+                            <p>Trạng thái: ${payment.status}</p>
+                        </div>
+                        <hr>`;
+                            paymentDetails.innerHTML += htmlContent;
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi lấy dữ liệu:', error);
+                        var paymentDetails = document.getElementById('paymentDetails');
+                        paymentDetails.innerHTML = '<p>Lỗi khi lấy thông tin đơn hàng.</p>';
+                    });
+            }
+        }
+
+        function dangXuat() {
+            window.location.href = '/home';
+        }
+    </script>
+</body>
+
+</html>
